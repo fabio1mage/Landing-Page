@@ -62,7 +62,7 @@ const Home = () => {
     }
 
     async function post(url, body) {
-        const BASE_URL = "http://localhost:3000/";
+        const BASE_URL = "https://localhost:3001/";
         return await fetch(BASE_URL + url, {
             method: 'POST',
             headers: {
