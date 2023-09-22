@@ -2,9 +2,12 @@ import sendToDrive from './drive.js';
 import sendToGmail from './gmail.js';
 import express from 'express';
 import cors from 'cors';
+import http from 'http';
+import https from 'https';
 
 const app = express();
-const port = 3000;
+const httpPort = 3000;
+const httpsPort = 3001;
 
 app.use(cors());
 app.use(express.json());
@@ -17,6 +20,13 @@ app.post('/notify', (req, res) => {
     sendToGmail(req, res);
 });
 
-app.listen(port, '0.0.0.0', () => {
-  console.log(`Servidor rodando em http://localhost:${port}`);
+const httpServer = http.createServer(app);
+const httpsServer = https.createServer(app);
+
+httpServer.listen(httpPort, '0.0.0.0', () => {
+  console.log(`Servidor rodando em http://localhost:${httpPort}`);
+});
+
+httpsServer.listen(httpsPort, '0.0.0.0', () => {
+  console.log(`Servidor rodando em https://localhost:${httpsPort}`);
 });
