@@ -22,7 +22,7 @@ const Background = () => {
 
 
             <img className="background"
-                src="https://raw.githubusercontent.com/fabio1mage/Landing-Page/2f72033226095db22c28177aa267bfebc65ee671/big1mage.svg"
+                src="https://raw.githubusercontent.com/fabio1mage/Landing-Page-Icons/2f72033226095db22c28177aa267bfebc65ee671/big1mage.svg"
                 width="585" />
         </div>
     )

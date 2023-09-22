@@ -125,13 +125,13 @@ const Home = () => {
                         <div className="stores">
                             <a className="store" href="#">
                                 <img
-                                    src="https://raw.githubusercontent.com/fabio1mage/Landing-Page/2f72033226095db22c28177aa267bfebc65ee671/playstore.svg"
+                                    src="https://raw.githubusercontent.com/fabio1mage/Landing-Page-Icons/2f72033226095db22c28177aa267bfebc65ee671/playstore.svg"
                                     height="24" />
                                 <span>Google play</span>
                             </a>
                             <a className="store" href="#">
                                 <img
-                                    src="https://raw.githubusercontent.com/fabio1mage/Landing-Page/2f72033226095db22c28177aa267bfebc65ee671/appstore.svg"
+                                    src="https://raw.githubusercontent.com/fabio1mage/Landing-Page-Icons/2f72033226095db22c28177aa267bfebc65ee671/appstore.svg"
                                     height="24" />
                                 <span>App store</span>
                             </a>
