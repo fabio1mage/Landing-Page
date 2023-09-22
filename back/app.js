@@ -21,8 +21,8 @@ app.post('/notify', (req, res) => {
     sendToGmail(req, res);
 });
 
-var privateKey  = fs.readFileSync('/etc/ssl/private/apache-selfsigned.key', 'utf8');
-var certificate = fs.readFileSync('/etc/ssl/private/apache-selfsigned.crt', 'utf8');
+var privateKey  = fs.readFileSync('key.pem');
+var certificate = fs.readFileSync('cert.pem');
 
 var credentials = {key: privateKey, cert: certificate};
 
