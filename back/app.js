@@ -4,6 +4,7 @@ import express from 'express';
 import cors from 'cors';
 import http from 'http';
 import https from 'https';
+import fs from 'fs';
 
 const app = express();
 const httpPort = 3000;
@@ -20,8 +21,14 @@ app.post('/notify', (req, res) => {
     sendToGmail(req, res);
 });
 
+var privateKey  = fs.readFileSync('/etc/ssl/private/apache-selfsigned.key', 'utf8');
+var certificate = fs.readFileSync('/etc/ssl/private/apache-selfsigned.crt', 'utf8');
+
+var credentials = {key: privateKey, cert: certificate};
+
 const httpServer = http.createServer(app);
-const httpsServer = https.createServer(app);
+const httpsServer = https.createServer(credentials, app);
+
 
 httpServer.listen(httpPort, '0.0.0.0', () => {
   console.log(`Servidor rodando em http://localhost:${httpPort}`);
