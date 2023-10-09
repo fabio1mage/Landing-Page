@@ -130,7 +130,7 @@ function getFileContentById(accessToken, fileId) {
 }
 
 async function sendToDrive(req, res) {
-    const { email, name } = req.body;
+    const { email, name, age } = req.body;
 
     const { CLIENT_ID, CLIENT_SECRET, REDIRECT_URI, REFRESH_TOKEN, FOLDER_ID } = process.env;
     const accessToken = await getAccessTokenFromRefreshToken(REFRESH_TOKEN, CLIENT_ID, CLIENT_SECRET);
@@ -145,7 +145,7 @@ async function sendToDrive(req, res) {
                     .then((response) => response.text())
                     .then((result) => {
                         if (!result.toLocaleLowerCase().includes(email.toLocaleLowerCase())) {
-                            let csv = result + `\n${name},${email}`;
+                            let csv = result + `\n${name},${email},${age}`;
                             patch(accessToken, file.id, csv)
                                 .then((response) => response.json())
                                 .then((result) => {
@@ -172,7 +172,7 @@ async function sendToDrive(req, res) {
                     })
             }
             else {
-                post(accessToken, `${name},${email}`, FOLDER_ID)
+                post(accessToken, `${name},${email},${age}`, FOLDER_ID)
                     .then((response) => response.json())
                     .then((result) => {
                         res.status(200).send({

@@ -29,14 +29,14 @@ article {
 
             &>span {
                 background: linear-gradient(90deg, rgba(0, 174, 212, 0.1), rgba(22, 118, 243, 0.1));
-            
+
                 &>span {
                     background: linear-gradient(90deg, #00AED4, #1676F3);
                     background-clip: text;
                     -webkit-background-clip: text;
                     -webkit-text-fill-color: transparent;
                 }
-            }            
+            }
         }
     }
 
@@ -121,9 +121,26 @@ article {
                         color: rgba(38, 52, 70, 1);
                     }
 
-                    &:nth-child(2) {
-                        width: 247px;
+                    &:nth-child(1) {
+                        width: 285px;
                     }
+                }
+            }
+
+            & input {
+                border: 0;
+                height: 40px;
+                border-radius: 8px;
+                padding: 8px 16px;
+                background-color: rgba(25, 36, 52, 0.1);
+                font-family: 'Ubuntu';
+
+                &::placeholder {
+                    font-family: 'Ubuntu';
+                    font-weight: 500;
+                    font-size: 12px;
+                    line-height: 13.79px;
+                    color: rgba(38, 52, 70, 1);
                 }
             }
 
@@ -158,19 +175,19 @@ article {
 }
 
 @media screen and (max-width: 768px) {
-    .home .container { 
+    .home .container {
         width: 100% !important;
     }
 
     .home article {
         width: 100%;
         padding: 0 16px;
-    
+
         & .titles {
             width: 100%;
             display: flex;
             flex-direction: column;
-    
+
             & h1 {
                 font-family: 'Ubuntu';
                 font-weight: 500;
@@ -178,39 +195,39 @@ article {
                 line-height: 55.15px;
                 text-align: center;
                 color: #192434;
-    
+
                 &>span {
                     background: linear-gradient(90deg, rgba(0, 174, 212, 0.1), rgba(22, 118, 243, 0.1));
-                
+
                     &>span {
                         background: linear-gradient(90deg, #00AED4, #1676F3);
                         background-clip: text;
                         -webkit-background-clip: text;
                         -webkit-text-fill-color: transparent;
                     }
-                }            
+                }
             }
         }
-    
+
         & .soon {
             width: 100%;
         }
 
         & .notify {
             width: 100%;
-    
+
             & form {
                 width: 100%;
 
-                & .fields { 
+                & .fields {
                     flex-direction: column;
-    
+
                     & input {
                         width: 100% !important;
                     }
                 }
             }
-    
+
             & .dont-worry {
                 font-family: 'Ubuntu';
                 font-weight: 500;

@@ -10,6 +10,7 @@ import Loading from "../../assets/Loading";
 const Home = () => {
 
     const [name, setName] = useState("");
+    const [age, setAge] = useState("");
     const [email, setEmail] = useState("");
 
     const [isLoading, setIsLoading] = useState(false);
@@ -20,14 +21,17 @@ const Home = () => {
         setIsLoading(true);
 
         try {
-            if (name === "" || email === "") {
-                throw new Error("Você precisa preencher os dois campos!");
+            if (name === "" || email === "" || age === "") {
+                throw new Error("Você precisa preencher os três campos!");
             }
 
             if (!validateEmail(email)) {
                 throw new Error("Você precisa informar um e-mail válido!");
             }
-
+            
+            if (parseInt(age) > 120 || parseInt(age) < 0) {
+                throw new Error("Você precisa informar uma idade válida!");
+            }
             const storeResult = await store(email, name);
             await notify(email, name);
 
@@ -62,7 +66,7 @@ const Home = () => {
     }
 
     async function post(url, body) {
-        const BASE_URL = "https://localhost:3001/";
+        const BASE_URL = "http://localhost:3000/";
         return await fetch(BASE_URL + url, {
             method: 'POST',
             headers: {
@@ -72,8 +76,8 @@ const Home = () => {
         });
     }
 
-    async function store(email, name) {
-        const response = await post("store", JSON.stringify({ email, name }));
+    async function store(email, name, age) {
+        const response = await post("store", JSON.stringify({ email, name, age }));
 
         if (!response.ok) {
             const data = await response.json();
@@ -85,8 +89,8 @@ const Home = () => {
         return await response.json();
     }
 
-    async function notify(email, name) {
-        const response = await post("notify", JSON.stringify({ email, name }));
+    async function notify(email, name, age) {
+        const response = await post("notify", JSON.stringify({ email, name, age }));
 
         if (!response.ok) {
             const data = await response.json();
@@ -101,6 +105,7 @@ const Home = () => {
     function clearFields() {
         setName("");
         setEmail("");
+        setAge("");
     }
 
     const validateEmail = (email) => {
@@ -111,11 +116,10 @@ const Home = () => {
             );
     };
 
-
     return (
         <>
-            <section className="home container">
-                <Header/>
+            <section className="home">
+                <Header />
                 <article>
                     <div className="titles">
                         <h1>Toda sua vida</h1><h1><span><span>em suas mãos</span></span></h1>
@@ -143,14 +147,17 @@ const Home = () => {
                         <form role="form" id="myForm" onSubmit={handleSubmit}>
                             <div className="fields">
                                 <input type="text" placeholder="Seu nome"
-                                    className="nome" value={name} onChange={(e) => setName(e.target.value)}/>
-                                <input type="text"
-                                    placeholder="Digite o seu endereço de email"
-                                    className="email" value={email} onChange={(e) => setEmail(e.target.value)}/>
+                                    className="nome" value={name} onChange={(e) => setName(e.target.value)} />
+                                <input type="number"
+                                    placeholder="Idade"
+                                    className="idade" value={age} onChange={(e) => setAge(e.target.value)}/>
                             </div>
+                            <input type="text"
+                                placeholder="Digite o seu endereço de email"
+                                className="email" value={email} onChange={(e) => setEmail(e.target.value)} />
                             <button className="notify-me" type="submit">
                                 {
-                                    !isLoading ? "Notifique-me" : <Loading/>
+                                    !isLoading ? "Notifique-me" : <Loading />
                                 }
                             </button>
                         </form>
@@ -158,10 +165,10 @@ const Home = () => {
                             incomodar com spam :)</span>
                     </div>
                 </article>
-                <Footer/>
+                <Footer />
             </section>
-            
-            <Background/>
+
+            <Background />
 
             <ToastContainer
                 position="top-right"
