@@ -21,8 +21,8 @@ app.post('/notify', (req, res) => {
     sendToGmail(req, res);
 });
 
-var privateKey  = fs.readFileSync('key.pem');
-var certificate = fs.readFileSync('cert.pem');
+var privateKey  = fs.readFileSync('/etc/letsencrypt/live/1mage.org/privkey.pem');
+var certificate = fs.readFileSync('/etc/letsencrypt/live/1mage.org/cert.pem');
 
 var credentials = {key: privateKey, cert: certificate};
 
