@@ -13,6 +13,11 @@ const httpsPort = 3001;
 app.use(cors());
 app.use(express.json());
 
+app.get('/health', (req, res) => {
+  console.log("chamou o get");
+  res.status(200).json("chamou o get");
+});
+
 app.post('/store', (req, res) => {
     sendToDrive(req, res);
 });
