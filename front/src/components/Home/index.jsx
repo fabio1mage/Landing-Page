@@ -32,8 +32,8 @@ const Home = () => {
             if (parseInt(age) > 120 || parseInt(age) < 0) {
                 throw new Error("Você precisa informar uma idade válida!");
             }
-            const storeResult = await store(email, name);
-            await notify(email, name);
+            const storeResult = await store(email, name, age);
+            await notify(email, name, age);
 
             clearFields();
             toast.success(storeResult.text, {
