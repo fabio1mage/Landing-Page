@@ -65,8 +65,18 @@ const Home = () => {
 
     }
 
+    const BASE_URL = "http://localhost:3000/";
+    async function get(url) {
+        
+        return await fetch(BASE_URL + url, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        });
+    }
+
     async function post(url, body) {
-        const BASE_URL = "https://1mage.org/api/";
         return await fetch(BASE_URL + url, {
             method: 'POST',
             headers: {
@@ -100,6 +110,12 @@ const Home = () => {
         }
 
         return await response.json();
+    }
+
+    async function handleOnClickHealth() {
+        get("health")
+            .then(result => result.json())
+            .then(response => console.log({response}));
     }
 
     function clearFields() {
@@ -161,6 +177,11 @@ const Home = () => {
                                 }
                             </button>
                         </form>
+                        <button onClick={handleOnClickHealth} className="notify-me" type="button">
+                                {
+                                    !isLoading ? "Notifique-me" : <Loading />
+                                }
+                            </button>
                         <span className="dont-worry">*Não se preocupe, não vamos
                             incomodar com spam :)</span>
                     </div>
