@@ -66,7 +66,7 @@ const Home = () => {
     }
 
     async function post(url, body) {
-        const BASE_URL = "http://localhost:3000/";
+        const BASE_URL = "https://1mage.org/api/";
         return await fetch(BASE_URL + url, {
             method: 'POST',
             headers: {
