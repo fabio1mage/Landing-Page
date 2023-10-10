@@ -118,7 +118,7 @@ const Home = () => {
 
     return (
         <>
-            <section className="home">
+            <section className="home container">
                 <Header />
                 <article>
                     <div className="titles">

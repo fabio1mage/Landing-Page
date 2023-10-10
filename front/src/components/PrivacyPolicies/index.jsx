@@ -8,7 +8,7 @@ const PrivacyPolicies = () => {
         <>
             <section className="privacy-policies container">
                 <Header/>
-                <article style={{alignItems: "flex-start", gap: 0}}>
+                <article className="privacy-policies__article" style={{alignItems: "flex-start", gap: 0}}>
                     <h2>
                         <span style={{ color: "rgb(68, 68, 68)" }}>Política Privacidade</span>
                     </h2>
