@@ -65,7 +65,7 @@ const Home = () => {
 
     }
 
-    const BASE_URL = "http://localhost:3000/";
+    const BASE_URL = "https://1mage.org/api/";
     async function get(url) {
         
         return await fetch(BASE_URL + url, {
