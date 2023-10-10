@@ -28,6 +28,6 @@ app.post('/notify', (req, res) => {
 const httpServer = http.createServer(app);
 
 
-httpServer.listen(httpPort, '0.0.0.0', () => {
+httpServer.listen(httpPort, '127.0.0.1', () => {
   console.log(`Servidor rodando em http://localhost:${httpPort}`);
 });
