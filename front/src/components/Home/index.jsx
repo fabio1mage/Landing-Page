@@ -33,7 +33,8 @@ const Home = () => {
                 throw new Error("Você precisa informar uma idade válida!");
             }
             const storeResult = await store(email, name, age);
-            await notify(email, name, age);
+            console.log(storeResult);
+            notify(email, name, age);
 
             clearFields();
             toast.success(storeResult.text, {
@@ -81,27 +82,18 @@ const Home = () => {
     async function store(email, name, age) {
         const response = await post("store", JSON.stringify({ email, name, age }));
 
-        if (!response.ok) {
-            const data = await response.json();
-            const error = new Error(data);
-            error.response = data;
-            throw error;
-        }
+        // if (!response.ok) {
+        //     const data = await response.json();
+        //     const error = new Error(data);
+        //     error.response = data;
+        //     throw error;
+        // }
 
         return await response.json();
     }
 
     async function notify(email, name, age) {
-        const response = await post("notify", JSON.stringify({ email, name, age }));
-
-        if (!response.ok) {
-            const data = await response.json();
-            const error = new Error(data);
-            error.response = data;
-            throw error;
-        }
-
-        return await response.json();
+        return await post("notify", JSON.stringify({ email, name, age }));
     }
 
     function clearFields() {
