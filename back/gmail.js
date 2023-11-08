@@ -7,26 +7,26 @@ dotenv.config({ path: './process.env' });
 
 const { CLIENT_ID, CLIENT_SECRET, REDIRECT_URI, REFRESH_TOKEN, FOLDER_ID } = process.env;
 const oAuth2Client = new OAuth2Client(
-  CLIENT_ID,
-  CLIENT_SECRET,
-  REDIRECT_URI
+    CLIENT_ID,
+    CLIENT_SECRET,
+    REDIRECT_URI
 );
 oAuth2Client.setCredentials({ refresh_token: REFRESH_TOKEN });
 
 function messageByAge(name, age) {
-  const ageInt = parseInt(age);
-  if (ageInt > 0 && age <= 30) {
-    return `${name}`;
-  }
-  else if (ageInt > 30 && ageInt <= 60) {
-    return `${name}, você`;
-  }
-  else if (ageInt > 60 && ageInt <= 80) {
-    return `${name}, senhor`;
-  }
-  else {
-    return `${name}, dom`;
-  }
+    const ageInt = parseInt(age);
+    if (ageInt > 0 && age <= 30) {
+        return `${name}`;
+    }
+    else if (ageInt > 30 && ageInt <= 60) {
+        return `${name}, você`;
+    }
+    else if (ageInt > 60 && ageInt <= 80) {
+        return `${name}, senhor`;
+    }
+    else {
+        return `${name}, dom`;
+    }
 }
 
 // async function sendToGmail(req, res) {
@@ -63,52 +63,51 @@ function messageByAge(name, age) {
 // }
 
 async function sendToGmail(req, res) {
-  try {
-    oAuth2Client
-    const transporter = nodemailer.createTransport({
-      service: 'Gmail',
-      auth: {
-        type: 'OAuth2',
-        user: 'fabio@1mage.org',
-        clientId: CLIENT_ID,
-        clientSecret: CLIENT_SECRET,
-        refreshToken: REFRESH_TOKEN
-      },
-    });
+    try {
+        oAuth2Client
+        const transporter = nodemailer.createTransport({
+            service: 'Gmail',
+            auth: {
+                type: 'OAuth2',
+                user: 'fabio@1mage.org',
+                clientId: CLIENT_ID,
+                clientSecret: CLIENT_SECRET,
+                refreshToken: REFRESH_TOKEN
+            },
+        });
 
 
-    const { email, name, age } = req.body;
-    const subject = "Beta tester";
-    const body = messageByAge(name, age);
+        const { email, name, age } = req.body;
+        const subject = "Beta tester";
+        const body = messageByAge(name, age);
 
-    const htmlBody = buildBodyHTMLEmail(name); // Your HTML content here
+        const htmlBody = buildBodyHTMLEmail(name); // Your HTML content here
 
-    const mensagem = {
-      from: 'fabio@1mage.org',
-      to: email,
-      subject: subject,
-      html: htmlBody,
-    };
+        const mensagem = {
+            from: 'fabio@1mage.org',
+            to: email,
+            subject: subject,
+            html: htmlBody,
+        };
 
-    transporter.sendMail(mensagem, (error, info) => {
-      if (error) {
-        console.log('Erro ao enviar o e-mail:', error);
-        res.status(400).send(error);
-      } else {
-        console.log('E-mail enviado com sucesso:', info.response);
-        res.status(200).send(info.response);
-      }
-    });
-  } catch (error) {
-    res.status(400).send('Error sending email: ' + error)
-  }
+        transporter.sendMail(mensagem, (error, info) => {
+            if (error) {
+                console.log('Erro ao enviar o e-mail:', error);
+                res.status(400).send(error);
+            } else {
+                console.log('E-mail enviado com sucesso:', info.response);
+                res.status(200).send(info.response);
+            }
+        });
+    } catch (error) {
+        res.status(400).send('Error sending email: ' + error)
+    }
 }
 
 export default sendToGmail;
 
 function buildBodyHTMLEmail(name) {
-  return `
-    <!DOCTYPE html>
+    return `<!DOCTYPE html>
     <html>
         <head>
             <meta charset='utf-8'>
@@ -118,124 +117,171 @@ function buildBodyHTMLEmail(name) {
             <link rel="preconnect" href="https://fonts.googleapis.com">
             <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
             <link
-                href="https://fonts.googleapis.com/css2?family=Ubuntu:wght@400;500&display=swap"
+                href="https://fonts.googleapis.com/css2?family=Ubuntu:ital,wght@0,300;0,400;0,500;0,700;1,400;1,500;1,700&display=swap"
                 rel="stylesheet">
         </head>
-        <body style="font-family: 'Ubuntu', sans-serif;">
-            <section style="width: 600px; height: 882px;">
-                <div
-                    style="width: 600px; height: 203px; display: flex; justify-content: center; align-items: center; background-color: #2C3D52;">
-                    <img
-                        src="./assets/one-logo-1.png"
-                        style="width: 115.75px; height: 65px;" />
-                </div>
-                <div
-                    style="width: 400px; display: flex; flex-direction: column; gap: 2.5rem; padding: 0.5rem 2rem;">
-                    <div style="display: flex; flex-direction: column; gap: 1.5rem;">
-                        <div
-                            class="display: flex; flex-direction: column; gap: 1.5rem;">
-                            <h3
-                                style="font-weight: 500; font-size: 24px; line-height: 30.07px; color: #2C3D52;">
-                                Bem-vindo(a), ${name}!
-                            </h3>
-                            <span
-                                style="font-weight: 500; font-size: 20px; line-height: 25.06px; color: #5B6676">
-                                Prepare-se para ter o controle de toda sua vida em
-                                suas
-                                mãos
-                            </span>
-                        </div>
-                        <div
-                            style="display: flex; flex-direction: column; gap: 0.5rem;">
-                            <span
-                                style="font-weight: 400; font-size: 20px; line-height: 25.06px; color: #5B6676;">
-                                É muito bom saber que você tem interesse em fazer
-                                parte da comunidade One.
-                            </span>
-                            <span
-                                style="font-weight: 400; font-size: 20px; line-height: 25.06px; color: #5B6676;">
-                                Uma comunidade de pessoas em busca de um único
-                                objetivo: ter o controle da saúde em mãos.
-                            </span>
-                        </div>
-                    </div>
-                    <div style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 1.5rem;">
-                        <span
-                            style="font-weight: 500; font-size: 24px; line-height: 27.58px; color: #2C3D52;">Em
-                            breve</span>
-                        <div
-                            style="background: linear-gradient(90deg, rgba(0, 174, 212, 0.1), rgba(22, 118, 243, 0.1))">
-                            <span
-                                style="font-weight: 500; font-size: 24px; line-height: 27.58px; background: linear-gradient(90deg, #00AED4, #1676F3); background-clip: text; -webkit-background-clip: text; -webkit-text-fill-color: transparent;">One
-                                app
-                            </span>
-                        </div>
-                    </div>
-                </div>
-                <div
-                    style="width: 600px; height: 233px; display: flex; justify-content: space-between; flex-direction: column; background-color: #2C3D52; padding: 1.5rem 0;">
-                    <div style="width: 600px; display: flex; height: 75px;">
-                        <div
-                            style="width: 322px; display: flex; flex-direction: column; gap: 0.5rem; padding: 0rem 2.5rem; padding-bottom: 0;">
-                            <span
-                                style="font-weight: 400; font-size: 14px; line-height: 16.09px; color: #F5F9FF;">Em
-                                breve nas lojas digitais</span>
-                            <div
-                                style="width: 271px; height: 50px; display: flex; justify-content: space-between; gap: 1.5rem;">
-                                <div
-                                    style="width: 123px; height: 50px; padding: 0 4px; display: flex; align-items: center; gap: 8px;">
-                                    <img
-                                        src="./assets/apple-store.png"
-                                        style="width: 21.6px; height: 21.6px;" />
-                                    <span
-                                        style="font-weight: 400; font-size: 13px; line-height: 15.86px; color: #F5F9FF;">
-                                        App Store
-                                    </span>
-                                </div>
-                                <div
-                                    style="width: 123px; height: 50px; padding: 0 4px; display: flex; align-items: center; gap: 8px;">
-                                    <img
-                                        src="./assets/play-store.png"
-                                        style="width: 21.6px; height: 21.6px;" />
-                                    <span
-                                        style="font-weight: 400; font-size: 13px; line-height: 15.86px; color: #F5F9FF;">
-                                        Play Store
-                                    </span>
-                                </div>
-                            </div>
-                        </div>
-                        <div
-                            style="display: flex; flex-direction: column; width: 166px; height: 75px; gap: 24px; ; padding: 1.5rem 2.5rem">
-                            <span
-                                style="font-weight: 400; font-size: 14px; line-height: 16.09px; color: #F5F9FF; text-wrap: nowrap;">
-                                Siga nossas redes sociais
-                            </span>
-                            <div
-                                style="display: flex; align-items: center; gap: 20px;">
-                                <img
-                                    src="./assets/instagram.png" />
-                                <img
-                                    src="./assets/linkedin.png" />
-                            </div>
-                        </div>
-                    </div>
-                    <div style="display: flex; width: 520px; height: 34px; gap: 3.5rem; padding: 0rem 2.5rem">
-                        <p style="font-weight: 400; font-size: 10px; line-height: 12.2px; color: #F5F9FF; width: 162px;">
-                            CNPJ 00.000.000/0000-00
-                            Av. 7 de Setembro, nº 140. Sala 301,
-                            CEP 00000-000, Curitiba/PR - Brasil
+        <body style="font-family: 'Ubuntu', sans-serif; margin: 0; padding: 0;">
+            <table role="presentation" width="100%"
+                style="max-width: 600px; margin: auto;" cellspacing="0"
+                cellpadding="0">
+                <tr>
+                    <td
+                        style="background-color: #2C3D52; text-align: center; padding: 40px;">
+                        <!-- Use a publicly accessible image URL -->
+                        <img
+                            src="https://raw.githubusercontent.com/fabio1mage/Landing-Page-Icons/main/one-logo-1.png"
+                            alt="Logo" width="115.75" style="margin-bottom: 20px;" />
+                    </td>
+                </tr>
+                <tr>
+                    <td style="padding: 20px;">
+                        <h3
+                            style="font-weight: 500; font-size: 24px; line-height: 30.07px; color: #2C3D52;">
+                            Bem-vindo(a), ${name}!
+                        </h3>
+                        <p
+                            style="font-weight: 400; font-size: 20px; line-height: 25.06px; color: #5B6676; margin: 0;">
+                            Prepare-se para ter o controle de toda sua vida em suas
+                            mãos.
                         </p>
-                        <p style="font-weight: 400; font-size: 10px; line-height: 12.2px; color: #F5F9FF;">
-                            +55 41 0000-0000<br>
-                            <a href="mailto:contato@1mage.org" style="text-decoration: none; color: #1674B8;">contato@1mage.org</a>
+                        <!-- Rest of your content -->
+                    </td>
+                </tr>
+                <tr>
+                    <td style="padding: 20px;">
+                        <p
+                            style="font-weight: 400; font-size: 20px; line-height: 25.06px; color: #5B6676;">
+                            É muito bom saber que você tem interesse em fazer parte
+                            da comunidade One.
                         </p>
-                    </div>
-                    <span style="align-self: center; font-weight: 400; font-size: 10px; line-height: 12.2px; color: #F5F9FF;">
+                        <p
+                            style="font-weight: 400; font-size: 20px; line-height: 25.06px; color: #5B6676;">
+                            Uma comunidade de pessoas em busca de um único objetivo:
+                            ter o controle da saúde em mãos.
+                        </p>
+                    </td>
+                </tr>
+                <tr>
+                    <td style="padding: 20px;">
+                        <table role="presentation" width="100%">
+                            <tr>
+                                <td
+                                    style="font-weight: 500; font-size: 24px; line-height: 27.58px; color: #2C3D52; padding-bottom: 20px;">
+                                    Em breve
+                                </td>
+                                <td
+                                    style="background: linear-gradient(90deg, rgba(0, 174, 212, 0.1), rgba(22, 118, 243, 0.1)); text-align: center;">
+                                    <span
+                                        style="font-weight: 500; font-size: 24px; line-height: 27.58px; color: #2C3D52;">
+                                        One app
+                                    </span>
+                                </td>
+                            </tr>
+                        </table>
+                    </td>
+                </tr>
+                <tr>
+                    <td
+                        style="background-color: #2C3D52; padding: 30px; text-align: center;">
+                        <table role="presentation" width="50%" style="display: inline; margin-right: 24px;">
+                            <tr>
+                                <td
+                                    style="font-weight: 400; font-size: 14px; line-height: 16.09px; color: white; padding-bottom: 20px;">
+                                    Em breve nas lojas digitais
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <table role="presentation" cellspacing="0"
+                                        cellpadding="0" align="center"
+                                        style="margin: auto;">
+                                        <tr>
+                                            <td>
+                                                <a
+                                                    style="color: white; text-decoration: none;"
+                                                    href="https://www.apple.com/ios/app-store/"
+                                                    target="_blank">
+                                                    <img
+                                                        src="https://raw.githubusercontent.com/fabio1mage/Landing-Page-Icons/main/apple-store.png"
+                                                        alt="Disponível na App Store"
+                                                        width="25"
+                                                        style="display: block; margin-right: 10px;">
+                                                </a>
+                                            </td>
+                                            <td>
+                                                <a
+                                                    style="color: white; text-decoration: none;"
+                                                    href="https://play.google.com/store"
+                                                    target="_blank">
+                                                    <img
+                                                        src="https://raw.githubusercontent.com/fabio1mage/Landing-Page-Icons/main/play-store.png"
+                                                        alt="Disponível no Google Play"
+                                                        width="25"
+                                                        style="display: block;">
+                                                </a>
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </td>
+                            </tr>
+                        </table>
+                        <table role="presentation" width="50%" style="display: inline; margin-left: 24px;">
+                            <tr>
+                                <td
+                                    style="font-weight: 400; font-size: 14px; line-height: 16.09px; color: white; padding-top: 20px;">
+                                    Siga nossas redes sociais
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <table role="presentation" cellspacing="0"
+                                        cellpadding="0" align="center"
+                                        style="margin: auto;">
+                                        <tr>
+                                            <td>
+                                                <a
+                                                    style="color: white; text-decoration: none;"
+                                                    href="http://instagram.com/yourprofile"
+                                                    target="_blank">
+                                                    <img
+                                                        src="https://raw.githubusercontent.com/fabio1mage/Landing-Page-Icons/main/instagram.png"
+                                                        alt="Instagram" width="25"
+                                                        style="margin-right: 10px;">
+                                                </a>
+                                            </td>
+                                            <td>
+                                                <a
+                                                    style="color: white; text-decoration: none;"
+                                                    href="http://linkedin.com/company/yourprofile"
+                                                    target="_blank">
+                                                    <img
+                                                        src="https://raw.githubusercontent.com/fabio1mage/Landing-Page-Icons/main/linkedin.png"
+                                                        alt="LinkedIn" width="25">
+                                                </a>
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </td>
+                            </tr>
+                        </table>
+                    </td>
+                </tr>
+                <tr>
+                    <td
+                        style="background-color: #2C3D52; padding: 20px; text-align: center; color: white; font-size: 10px; line-height: 12.2px;">
+                        CNPJ 00.000.000/0000-00<br>
+                        Av. 7 de Setembro, nº 140. Sala 301,<br>
+                        CEP 00000-000, Curitiba/PR - Brasil<br>
+                        +55 41 0000-0000<br>
+                        <a href="mailto:contato@1mage.org"
+                            style="color: #1674B8; text-decoration: none;">
+                            contato@1mage.org
+                        </a><br>
                         © 2023 One. Todos os direitos reservados.
-                    </span>
-                </div>
-            </section>
+                    </td>
+                </tr>
+            </table>
         </body>
     </html>
-  `
+    `
 }
